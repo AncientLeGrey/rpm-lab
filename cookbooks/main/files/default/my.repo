@@ -1,0 +1,5 @@
+[my]
+name=my $basearch
+baseurl=file:///vagrant/repo
+enabled=1
+gpgcheck=0

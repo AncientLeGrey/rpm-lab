@@ -1,0 +1,13 @@
+$: << '../cantiere/lib'
+
+require 'rake/clean'
+require 'cantiere/helpers/rake-helper'
+
+CLEAN.include([
+  'build/topdir/rhel/5/BUILD',
+  'build/topdir/rhel/5/SOURCES',
+  'build/topdir/rhel/5/tmp',
+  'build/topdir/rhel/5/sources-cache'
+])
+
+Cantiere::RakeHelper.new

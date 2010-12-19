@@ -1,0 +1,104 @@
+<project name="Vagrant" basedir="." default="vagrant:up">
+
+    <xmlproperty file="config.xml" keepRoot="false" collapseattributes="true" semanticattributes="true"/>
+    <property name="keyfile" location="${box.key}"/>
+
+    <macrodef name="vagrant">
+        <text name="task"/>
+        <sequential>
+            <exec executable="${vagrant.command}">
+                <arg value="@{task}"/>
+            </exec>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="vagrant.rake">
+        <text name="task"/>
+        <sequential>
+            <exec executable="${vagrant.command}">
+                <arg value="rake"/>
+                <arg value="@{task}"/>
+            </exec>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="box.run">
+        <text name="command"/>
+        <sequential>
+            <sshexec host="${box.hostname}" port="2222"
+                username="${box.user}"
+                keyfile="${keyfile}"
+                trust="true"
+                command="@{command}"
+            />
+        </sequential>
+    </macrodef>
+
+    <macrodef name="box.script">
+        <text name="file"/>
+        <sequential>
+            <sshexec host="${box.hostname}" port="2222"
+                username="${box.user}"
+                keyfile="${keyfile}"
+                trust="true"
+                commandResource="@{file}"
+            />
+        </sequential>
+    </macrodef>
+
+    <target name="vagrant:structure" description="created neede directories">
+        <mkdir dir="${rpm.rpms}"/>
+        <mkdir dir="${rpm.srpms}"/>
+        <mkdir dir="${rpm.sources}"/>
+        <mkdir dir="${rpm.specs}"/>
+        <mkdir dir="${rpm.log}"/>
+    </target>
+
+    <target name="vagrant" depends="vagrant:structure">
+        <input addproperty="task" defaultvalue="" message="Task"/>
+        <vagrant>${task}</vagrant>
+    </target>
+
+    <target name="vagrant:up" depends="vagrant:structure" description="vagrant up">
+        <vagrant>up</vagrant>
+        <!--<nbbrowse url="${box.url}"/>-->
+    </target>
+
+    <target name="vagrant:destroy" description="vagrant destroy">
+        <vagrant>destroy</vagrant>
+    </target>
+
+    <target name="vagrant:ssh" description="vagrant ssh">
+        <input addproperty="command" defaultvalue="" message="Command"/>
+        <box.run>${command}</box.run>
+    </target>
+
+    <target name="vagrant:status" description="vagrant status">
+        <vagrant>status</vagrant>
+    </target>
+
+    <target name="vagrant:provision" description="vagrant provision">
+        <vagrant>provision</vagrant>
+    </target>
+
+    <target name="vagrant:reload" description="vagrant reload">
+        <vagrant>reload</vagrant>
+    </target>
+
+    <target name="vagrant:suspend" description="vagrant suspend">
+        <vagrant>suspend</vagrant>
+    </target>
+
+    <target name="vagrant:halt" description="vagrant halt">
+        <vagrant>halt</vagrant>
+    </target>
+
+    <target name="vagrant:rake" description="vagrant rake">
+        <input addproperty="task" defaultvalue="" message="Task"/>
+        <vagrant.rake>${task}</vagrant.rake>
+    </target>
+
+    <target name="vagrant:restart" depends="vagrant:halt,vagrant:up" description="vagrant restart">
+    </target>
+
+</project>

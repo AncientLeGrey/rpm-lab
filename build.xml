@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="RpmLab" basedir="." default="run">
+
+    <xmlproperty file="config.xml" keepRoot="false" collapseattributes="true" semanticattributes="true"/>
+    <import file="build.vagrant.xml"/>
+
+    <target name="run" depends="vagrant:up" description="build rpms">
+
+        <!-- build the exaplme jruby rpm -->
+        <vagrant.rake>rpm:jruby</vagrant.rake>
+
+    </target>
+
+    <target name="clean" description="cleans rpm temp files inside the vm">
+        <vagrant.rake>clean</vagrant.rake>
+    </target>
+
+    <target name="eradicate!" depends="clean" description="cleans rpms merciless">
+        <delete file="rpmbuild/log/cantiere.log"/>
+        <delete>
+            <fileset dir="rpmbuild/SRPMS/" includes="**"/>
+        </delete>
+        <delete includeemptydirs="false">
+            <fileset dir="rpmbuild/RPMS" includes="**/*"/>
+        </delete>
+    </target>
+
+</project>

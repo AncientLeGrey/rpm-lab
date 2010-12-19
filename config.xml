@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<config>
+
+    <vagrant>
+        <command>vagrant.bat</command>
+    </vagrant>
+
+    <box hostname="localhost">
+        <url>http://${box.hostname}:8080</url>
+        <user>vagrant</user>
+        <key>vagrant.key</key> <!-- location -->
+        <kickstart>http://dl.dropbox.com/u/153388/rpm_lab/centos.ks.cfg</kickstart>
+        <topdir>/home/${box.user}/rpmbuild</topdir>
+        <home>/home/${box.user}</home>
+    </box>
+
+    <rpm dir="rpmbuild">
+        <rpms>${rpm.dir}/RPMS</rpms>
+        <srpms>${rpm.dir}/SRPMS</srpms>
+        <specs>${rpm.dir}/SPECS</specs>
+        <build>${rpm.dir}/BUILD</build>
+        <sources>${rpm.dir}/SOURCES</sources>
+        <log>${rpm.dir}/log</log>
+    </rpm>
+
+</config>
