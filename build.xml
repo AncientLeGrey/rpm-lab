@@ -7,7 +7,7 @@
 
     <target name="run" depends="vagrant:up" description="build rpms">
 
-        <!-- build the exaplme jruby rpm -->
+        <!-- build the example jruby rpm -->
         <vagrant.rake>rpm:jruby</vagrant.rake>
 
     </target>
