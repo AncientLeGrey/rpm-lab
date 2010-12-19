@@ -1,1 +1,2 @@
 glob:.vagrant
+glob:repo/**
