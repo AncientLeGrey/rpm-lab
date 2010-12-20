@@ -14,20 +14,20 @@ gem_package 'net-sftp' do
   action :install
 end
 
-git '~vagrant/cantiere' do
+git '/home/vagrant/cantiere' do
   repository 'git://github.com/stormgrind/cantiere.git'
-  reference 'HEAD'
+  reference 'master'
   group 'vagrant'
   user 'vagrant'
   action :sync
-  ignore_failure true
 end
 
-link "~vagrant/rpmbuild/Rakefile" do
-  to "/vagrant/rpmbuild/Rakefile"
+link '~vagrant/rpmbuild/Rakefile' do
+  to '/vagrant/rpmbuild/Rakefile'
+  not_if '[ -f ~vagrant/rpmbuild/Rakefile ]'
 end
 
-execute "set_rights" do
-  command "chown -R vagrant.vagrant ~vagrant/rpmbuild"
+execute 'set_rights' do
+  command 'chown -R vagrant.vagrant ~vagrant/rpmbuild'
   action :run
 end
