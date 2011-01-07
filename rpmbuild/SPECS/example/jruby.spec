@@ -1,7 +1,7 @@
 Summary: Ruby Interpreter in Java
 Name: jruby
 Version: 1.5.6
-Release: 1
+Release: 2
 License: LGPL
 Group: Language
 URL: http://jruby.org
@@ -18,7 +18,6 @@ Requires: java
 100% Pure-Java Implementation of the Ruby Programming Language
 
 %prep
-
 %setup
 
 %install
@@ -27,6 +26,9 @@ cp -R . %{buildroot}/var/lib/%{name}
 
 %clean
 rm -Rf %{buildroot}
+
+%pre
+/usr/sbin/useradd %{name}
 
 %post
 echo 'export JRUBY_HOME=/var/lib/%{name}' >> ~%{name}/.bash_profile
@@ -38,8 +40,5 @@ echo 'export PATH=$JRUBY_HOME/bin:$PATH'  >> ~%{name}/.bash_profile
 userdel -r %{name}
 
 %files 
-%defattr(-,root,root)
+%defattr(-,jruby,jruby)
 /var/lib/jruby
-
-%pre
-/usr/sbin/useradd %{name}
